@@ -1,0 +1,496 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>¿Niño o Niña? | Revelación</title>
+<meta name="description" content="Te invitamos a descubrir con nosotros si nuestro bebé es niño o niña. Domingo 22 de noviembre, 4:30 p. m., por Zoom.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  /* ==========================================================
+     ✏️ PARA PERSONALIZAR: edita solo el bloque CONFIG
+     que está al final del archivo (dentro de <script>).
+     ========================================================== */
+  :root{
+    /* Paleta tono tierra */
+    --pink:#d4a99a; --pink-d:#a8705c; --pink-l:#f3e4dc;   /* rosa empolvado (niña) */
+    --blue:#a9b4ab; --blue-d:#6e7f75; --blue-l:#e7ebe5;   /* salvia (niño) */
+    --caramel:#b98a5e; --brown:#7a5636; --sand:#e8d9c4;
+    --cream:#faf4eb; --ink:#4a3a2e; --muted:#8b7765;
+    --card:#fffdf9; --line:#eadfd0;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:'Nunito',system-ui,sans-serif;color:var(--ink);
+    background:var(--cream);line-height:1.6;overflow-x:hidden;
+  }
+  body.locked{overflow:hidden}
+  h1,h2,h3,.serif{font-family:'Fraunces',Georgia,serif;font-weight:600}
+
+  /* ---------- Portada ---------- */
+  #cover{
+    position:fixed;inset:0;z-index:50;display:flex;flex-direction:column;
+    align-items:center;justify-content:center;text-align:center;padding:24px;
+    background:radial-gradient(circle at 50% 30%,var(--card) 0%,var(--cream) 45%,var(--sand) 100%);
+    transition:opacity .8s ease, transform .8s ease;
+  }
+  #cover.hide{opacity:0;transform:scale(1.04);pointer-events:none}
+  .envelope{
+    width:180px;height:120px;position:relative;margin-bottom:28px;
+    filter:drop-shadow(0 12px 24px rgba(61,53,64,.12));
+    animation:float 3s ease-in-out infinite;
+  }
+  .envelope .body{position:absolute;inset:0;background:#fff;border-radius:10px;border:2px solid var(--line)}
+  .envelope .flap{
+    position:absolute;left:0;right:0;top:0;height:70px;
+    background:linear-gradient(135deg,var(--caramel),var(--brown));
+    clip-path:polygon(0 0,100% 0,50% 100%);border-radius:10px 10px 0 0;
+  }
+  .envelope .seal{
+    position:absolute;left:50%;top:52px;transform:translateX(-50%);
+    width:40px;height:40px;border-radius:50%;background:#fff;
+    display:grid;place-items:center;font-size:20px;
+    box-shadow:0 2px 8px rgba(0,0,0,.12);
+  }
+  .cover-kicker{letter-spacing:.25em;text-transform:uppercase;font-size:.75rem;color:var(--muted);font-weight:700}
+  .cover-title{font-size:2.4rem;margin:6px 0 4px}
+  .cover-title .b{color:var(--blue-d)} .cover-title .g{color:var(--pink-d)}
+  .cover-sub{color:var(--muted);margin-bottom:28px}
+  .btn{
+    display:inline-flex;align-items:center;justify-content:center;gap:8px;
+    border:none;cursor:pointer;font:700 1rem 'Nunito',sans-serif;
+    padding:14px 28px;border-radius:999px;text-decoration:none;
+    transition:transform .15s ease, box-shadow .15s ease;
+  }
+  .btn:active{transform:scale(.97)}
+  .btn-main{
+    color:#fff;background:linear-gradient(90deg,var(--caramel),var(--brown));
+    box-shadow:0 8px 20px rgba(122,86,54,.28);
+  }
+  .btn-ghost{background:#fff;color:var(--ink);border:2px solid var(--line)}
+  @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+
+  /* ---------- Layout ---------- */
+  main{max-width:560px;margin:0 auto;padding:0 16px 48px}
+  section{padding:44px 0;text-align:center}
+  .kicker{letter-spacing:.22em;text-transform:uppercase;font-size:.72rem;color:var(--muted);font-weight:700;margin-bottom:6px}
+  h2{font-size:1.8rem;margin-bottom:14px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:26px 20px;box-shadow:0 6px 24px rgba(61,53,64,.05)}
+  .divider{display:flex;align-items:center;justify-content:center;gap:10px;color:var(--muted);margin:6px 0}
+  .divider::before,.divider::after{content:"";height:1px;width:56px;background:var(--line)}
+
+  /* ---------- Hero ---------- */
+  .hero{padding-top:64px}
+  .balloons{display:flex;justify-content:center;gap:14px;margin-bottom:18px}
+  .balloon{width:54px;height:66px;border-radius:50% 50% 48% 48%;position:relative;animation:float 3.2s ease-in-out infinite}
+  .balloon::after{content:"";position:absolute;left:50%;top:100%;width:1px;height:40px;background:#cbbfc6}
+  .balloon.p{background:radial-gradient(circle at 35% 30%,#fff7,transparent 40%),var(--sand)}
+  .balloon.q{background:radial-gradient(circle at 35% 30%,#fff7,transparent 40%),var(--caramel);animation-delay:.4s;transform:translateY(-10px)}
+  .balloon.b{background:radial-gradient(circle at 35% 30%,#fff7,transparent 40%),#f4ece0;animation-delay:.8s}
+  .hero h1{font-size:2.7rem;line-height:1.1;margin-bottom:10px}
+  .hero h1 .b{color:var(--blue-d)} .hero h1 .g{color:var(--pink-d)}
+  .hero p{color:var(--muted);max-width:400px;margin:0 auto}
+  .parents{font-family:'Fraunces',serif;font-style:italic;font-size:1.35rem;margin-top:18px}
+
+  /* ---------- Fecha ---------- */
+  .date-big{display:flex;align-items:center;justify-content:center;gap:18px;margin:8px 0 6px}
+  .date-big .side{font-weight:700;letter-spacing:.15em;text-transform:uppercase;font-size:.8rem;color:var(--muted);border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:6px 4px;min-width:84px}
+  .date-big .num{font-family:'Fraunces',serif;font-size:3.6rem;line-height:1;background:linear-gradient(180deg,var(--caramel),var(--brown));-webkit-background-clip:text;background-clip:text;color:transparent}
+  .time{font-weight:700;font-size:1.1rem}
+  .tz{color:var(--muted);font-size:.85rem}
+  .countdown{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:22px 0}
+  .countdown div{background:var(--cream);border-radius:14px;padding:12px 4px}
+  .countdown b{display:block;font-family:'Fraunces',serif;font-size:1.6rem}
+  .countdown span{font-size:.7rem;text-transform:uppercase;letter-spacing:.1em;color:var(--muted)}
+
+  /* ---------- Zoom ---------- */
+  .zoom-icon{width:56px;height:56px;border-radius:16px;background:var(--blue-l);display:grid;place-items:center;margin:0 auto 14px;font-size:26px}
+  .zoom-data{margin:16px 0;display:grid;gap:8px;text-align:left}
+  .zoom-row{display:flex;justify-content:space-between;align-items:center;gap:10px;background:var(--cream);border-radius:12px;padding:10px 14px;font-size:.95rem}
+  .zoom-row span{color:var(--muted)}
+  .zoom-row b{font-family:ui-monospace,Menlo,monospace;font-size:.95rem;word-break:break-all}
+  .note{font-size:.85rem;color:var(--muted);margin-top:12px}
+
+  /* ---------- Equipos ---------- */
+  .teams{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:18px}
+  .team{border-radius:20px;padding:22px 10px;cursor:pointer;border:2px solid transparent;transition:transform .15s ease,border-color .15s ease;font:inherit;color:var(--ink)}
+  .team:active{transform:scale(.97)}
+  .team.boy{background:var(--blue-l)} .team.girl{background:var(--pink-l)}
+  .team.sel.boy{border-color:var(--blue-d)} .team.sel.girl{border-color:var(--pink-d)}
+  .team .emoji{font-size:2rem;display:block;margin-bottom:6px}
+  .team .label{font-family:'Fraunces',serif;font-size:1.2rem;font-weight:600}
+  .team.boy .label{color:var(--blue-d)} .team.girl .label{color:var(--pink-d)}
+
+  /* ---------- Detalles ---------- */
+  .tips{display:grid;gap:12px;text-align:left}
+  .tip{display:flex;gap:14px;align-items:flex-start;background:#fff;border:1px solid var(--line);border-radius:18px;padding:16px}
+  .tip .i{font-size:1.5rem;flex-shrink:0}
+  .tip h3{font-size:1.05rem;margin-bottom:2px}
+  .tip p{font-size:.92rem;color:var(--muted)}
+
+  /* ---------- RSVP ---------- */
+  .rsvp-form{display:grid;gap:10px;margin:16px 0 4px;text-align:left}
+  .rsvp-form label{font-size:.85rem;font-weight:700;color:var(--muted)}
+  .rsvp-form input{width:100%;padding:12px 14px;border-radius:12px;border:1px solid var(--line);font:inherit;background:var(--cream)}
+  .wa{background:var(--brown);color:#fff;box-shadow:0 8px 20px rgba(122,86,54,.25);width:100%}
+
+  footer{text-align:center;padding:30px 16px 50px;color:var(--muted)}
+  footer .serif{font-size:1.4rem;color:var(--ink);font-style:italic}
+
+  .reveal{opacity:0;transform:translateY(24px);transition:opacity .7s ease, transform .7s ease}
+  .reveal.in{opacity:1;transform:none}
+
+  /* Confeti */
+  .confetti{position:fixed;top:-12px;width:10px;height:14px;z-index:60;pointer-events:none;border-radius:2px;animation:fall linear forwards}
+  @keyframes fall{to{transform:translateY(110vh) rotate(720deg)}}
+
+  /* ---------- Música ---------- */
+  .song{display:inline-flex;align-items:center;gap:12px;margin-top:22px;padding:10px 18px 10px 10px;border-radius:999px;background:var(--card);border:1px solid var(--line);cursor:pointer;font:inherit;color:var(--ink);box-shadow:0 6px 18px rgba(122,86,54,.08)}
+  .song .disc{width:40px;height:40px;border-radius:50%;display:grid;place-items:center;color:#fff;font-size:1rem;background:linear-gradient(135deg,var(--caramel),var(--brown))}
+  .song.playing .disc{animation:spin 3s linear infinite}
+  .song .txt{text-align:left;line-height:1.25}
+  .song .txt small{display:block;color:var(--muted);font-size:.75rem;letter-spacing:.08em;text-transform:uppercase}
+  .song .txt b{font-family:'Fraunces',serif;font-weight:600}
+  #musicFab{position:fixed;right:16px;bottom:16px;z-index:40;width:48px;height:48px;border-radius:50%;border:none;cursor:pointer;color:#fff;font-size:1.2rem;background:linear-gradient(135deg,var(--caramel),var(--brown));box-shadow:0 8px 20px rgba(122,86,54,.3);display:none}
+  #musicFab.show{display:grid;place-items:center}
+  #musicFab.playing{animation:spin 3s linear infinite}
+  #ytHolder{position:fixed;left:0;bottom:0;width:2px;height:2px;opacity:.01;pointer-events:none;overflow:hidden}
+  @keyframes spin{to{transform:rotate(360deg)}}
+
+  /* ---------- Ositos ---------- */
+  .cover-bear{width:120px;height:132px;margin-bottom:-18px;position:relative;z-index:2;animation:sway 3.4s ease-in-out infinite}
+  .hero-bear{width:150px;height:165px;display:block;margin:-30px auto 14px;animation:sway 3.6s ease-in-out infinite}
+  .mini-bear{width:34px;height:31px}
+  .footer-bear{width:90px;height:99px;display:block;margin:0 auto 8px}
+  .garland{display:flex;justify-content:center;gap:6px;margin:0 auto 6px;position:relative;padding-top:6px}
+  .garland::before{content:"";position:absolute;left:8%;right:8%;top:10px;height:14px;border-top:2px dashed var(--line);border-radius:50%}
+  .garland .flag{width:34px;height:40px;background:var(--sand);clip-path:polygon(0 0,100% 0,100% 72%,50% 100%,0 72%);display:grid;place-items:center;position:relative}
+  .garland .flag:nth-child(even){background:var(--card);border:0}
+  .garland svg{width:22px;height:20px;margin-top:-4px}
+  @keyframes sway{0%,100%{transform:rotate(-3deg)}50%{transform:rotate(3deg)}}
+
+  @media (min-width:600px){ .hero h1{font-size:3.2rem} .cover-title{font-size:3rem} }
+</style>
+</head>
+<body class="locked">
+
+<!-- Ositos reutilizables -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="bear" viewBox="0 0 200 220">
+      <!-- orejas -->
+      <circle cx="58" cy="42" r="24" fill="#b98a5e"/><circle cx="58" cy="42" r="12" fill="#e8d9c4"/>
+      <circle cx="142" cy="42" r="24" fill="#b98a5e"/><circle cx="142" cy="42" r="12" fill="#e8d9c4"/>
+      <!-- cuerpo -->
+      <ellipse cx="100" cy="165" rx="56" ry="50" fill="#b98a5e"/>
+      <ellipse cx="100" cy="172" rx="32" ry="30" fill="#e8d9c4"/>
+      <!-- patitas -->
+      <ellipse cx="62" cy="205" rx="22" ry="14" fill="#a07449"/><circle cx="62" cy="205" r="8" fill="#e8d9c4"/>
+      <ellipse cx="138" cy="205" rx="22" ry="14" fill="#a07449"/><circle cx="138" cy="205" r="8" fill="#e8d9c4"/>
+      <!-- brazos -->
+      <ellipse cx="46" cy="150" rx="15" ry="26" fill="#a07449" transform="rotate(25 46 150)"/>
+      <ellipse cx="154" cy="150" rx="15" ry="26" fill="#a07449" transform="rotate(-25 154 150)"/>
+      <!-- cabeza -->
+      <circle cx="100" cy="80" r="58" fill="#c39566"/>
+      <ellipse cx="100" cy="98" rx="26" ry="20" fill="#f1e5d3"/>
+      <ellipse cx="100" cy="90" rx="9" ry="6.5" fill="#5a3e27"/>
+      <path d="M100 96 v7 M100 103 q-7 6 -12 1 M100 103 q7 6 12 1" stroke="#5a3e27" stroke-width="2.6" fill="none" stroke-linecap="round"/>
+      <circle cx="78" cy="72" r="5.5" fill="#3d2a1b"/><circle cx="122" cy="72" r="5.5" fill="#3d2a1b"/>
+      <circle cx="80" cy="70" r="1.8" fill="#fff"/><circle cx="124" cy="70" r="1.8" fill="#fff"/>
+      <ellipse cx="68" cy="92" rx="8" ry="5" fill="#d4a99a" opacity=".55"/>
+      <ellipse cx="132" cy="92" rx="8" ry="5" fill="#d4a99a" opacity=".55"/>
+      <!-- moño -->
+      <path d="M100 132 L76 120 Q70 132 76 144 Z" fill="#f4ece0" stroke="#d9c7ad" stroke-width="2"/>
+      <path d="M100 132 L124 120 Q130 132 124 144 Z" fill="#f4ece0" stroke="#d9c7ad" stroke-width="2"/>
+      <circle cx="100" cy="132" r="7" fill="#e8d9c4" stroke="#d9c7ad" stroke-width="2"/>
+    </symbol>
+    <symbol id="bearface" viewBox="0 0 120 110">
+      <circle cx="28" cy="28" r="18" fill="#b98a5e"/><circle cx="28" cy="28" r="9" fill="#e8d9c4"/>
+      <circle cx="92" cy="28" r="18" fill="#b98a5e"/><circle cx="92" cy="28" r="9" fill="#e8d9c4"/>
+      <circle cx="60" cy="60" r="44" fill="#c39566"/>
+      <ellipse cx="60" cy="74" rx="19" ry="15" fill="#f1e5d3"/>
+      <ellipse cx="60" cy="68" rx="7" ry="5" fill="#5a3e27"/>
+      <circle cx="44" cy="54" r="4.5" fill="#3d2a1b"/><circle cx="76" cy="54" r="4.5" fill="#3d2a1b"/>
+    </symbol>
+  </defs>
+</svg>
+
+<!-- ================= PORTADA ================= -->
+<div id="cover">
+  <svg class="cover-bear" aria-hidden="true"><use href="#bear"/></svg>
+  <div class="envelope"><div class="body"></div><div class="flap"></div><div class="seal">🤎</div></div>
+  <div class="cover-kicker">Tienes una invitación especial</div>
+  <div class="cover-title"><span class="b">¿Niño</span> o <span class="g">niña?</span></div>
+  <div class="cover-sub" data-f="coverSub"></div>
+  <button class="btn btn-main" id="openBtn">Abrir invitación ✨</button>
+</div>
+
+<main>
+  <!-- ================= HERO ================= -->
+  <section class="hero reveal">
+    <div class="garland" aria-hidden="true">
+      <div class="flag"><svg><use href="#bearface"/></svg></div><div class="flag"><svg><use href="#bearface"/></svg></div><div class="flag"><svg><use href="#bearface"/></svg></div><div class="flag"><svg><use href="#bearface"/></svg></div><div class="flag"><svg><use href="#bearface"/></svg></div><div class="flag"><svg><use href="#bearface"/></svg></div><div class="flag"><svg><use href="#bearface"/></svg></div>
+    </div>
+    <div class="balloons" style="margin-top:22px"><div class="balloon b"></div><div class="balloon q"></div><div class="balloon p"></div></div>
+    <svg class="hero-bear" aria-hidden="true"><use href="#bear"/></svg>
+    <div class="kicker">Revelación de sexo</div>
+    <h1><span class="b">¿Niño</span> o<br><span class="g">niña?</span></h1>
+    <p>Un pequeño gran secreto está por descubrirse y queremos que lo vivas con nosotros.</p>
+    <div class="parents" data-f="parents"></div>
+    <button class="song" id="songBtn" type="button">
+      <span class="disc" id="songIcon">▶</span>
+      <span class="txt"><small id="songLabel">Reproducir nuestra canción</small><b data-f="songTitle"></b></span>
+    </button>
+  </section>
+
+  <div class="divider"><svg class="mini-bear" aria-hidden="true"><use href="#bearface"/></svg></div>
+
+  <!-- ================= FECHA ================= -->
+  <section class="reveal">
+    <div class="kicker">Reserva la fecha</div>
+    <h2>¿Cuándo?</h2>
+    <div class="card">
+      <div class="date-big">
+        <div class="side">Domingo</div>
+        <div class="num">22</div>
+        <div class="side">Noviembre</div>
+      </div>
+      <div class="kicker" style="margin:10px 0 6px">2026</div>
+      <div class="time">4:30 p. m. – 6:00 p. m.</div>
+      <div class="tz">Hora de Perú (GMT-5)</div>
+      <div class="countdown" id="countdown">
+        <div><b id="cd-d">--</b><span>Días</span></div>
+        <div><b id="cd-h">--</b><span>Horas</span></div>
+        <div><b id="cd-m">--</b><span>Min</span></div>
+        <div><b id="cd-s">--</b><span>Seg</span></div>
+      </div>
+      <a class="btn btn-ghost" id="calBtn" target="_blank" rel="noopener">📅 Agregar a mi calendario</a>
+    </div>
+  </section>
+
+  <!-- ================= ZOOM ================= -->
+  <section class="reveal">
+    <div class="kicker">Desde donde estés</div>
+    <h2>¿Dónde?</h2>
+    <div class="card">
+      <div class="zoom-icon">💻</div>
+      <p>Nos conectamos por <b>Zoom</b> para que nadie se pierda el gran momento, estés donde estés.</p>
+      <div class="zoom-data" id="zoomData"></div>
+      <a class="btn btn-main" id="zoomBtn" target="_blank" rel="noopener">🎥 Unirme a la reunión</a>
+      <p class="note">Te recomendamos conectarte 5 minutos antes y con la cámara encendida, ¡queremos ver tu reacción!</p>
+    </div>
+  </section>
+
+  <div class="divider"><svg class="mini-bear" aria-hidden="true"><use href="#bearface"/></svg></div>
+
+  <!-- ================= EQUIPOS ================= -->
+  <section class="reveal">
+    <div class="kicker">Antes de la sorpresa</div>
+    <h2>¿Tú qué crees?</h2>
+    <p style="color:var(--muted)">Elige tu equipo. Tu voto se enviará junto con tu confirmación.</p>
+    <div class="teams">
+      <button class="team boy" data-team="niño"><span class="emoji">🧸</span><span class="label">Team Niño</span></button>
+      <button class="team girl" data-team="niña"><span class="emoji">🎀</span><span class="label">Team Niña</span></button>
+    </div>
+  </section>
+
+  <!-- ================= DETALLES ================= -->
+  <section class="reveal">
+    <div class="kicker">Para tener en cuenta</div>
+    <h2>Detalles</h2>
+    <div class="tips">
+      <div class="tip"><div class="i">👕</div><div><h3>Viste tu apuesta</h3><p>Usa algo verde salvia si crees que es niño, o rosa pastel si crees que es niña.</p></div></div>
+      <div class="tip"><div class="i">🎉</div><div><h3>Ten a la mano tu celebración</h3><p>Un globo, un aplauso o un brindis para festejar juntos cuando se revele el secreto.</p></div></div>
+      <div class="tip"><div class="i">📶</div><div><h3>Buena conexión</h3><p>Revisa tu internet y tu audio antes de entrar para no perderte el momento.</p></div></div>
+    </div>
+  </section>
+
+  <!-- ================= RSVP ================= -->
+  <section class="reveal">
+    <div class="kicker">Nos ayudaría mucho</div>
+    <h2>Confirma tu asistencia</h2>
+    <div class="card">
+      <p data-f="rsvpText"></p>
+      <div class="rsvp-form">
+        <label for="guestName">Tu nombre</label>
+        <input id="guestName" type="text" placeholder="Escribe tu nombre" autocomplete="name">
+      </div>
+      <p class="note" id="teamNote">Aún no elegiste equipo. Puedes hacerlo arriba.</p>
+      <button class="btn wa" id="waBtn" style="margin-top:14px">☏ Confirmar por WhatsApp</button>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <svg class="footer-bear" aria-hidden="true"><use href="#bear"/></svg>
+  <div class="serif">¡Te esperamos!</div>
+  <div data-f="footer" style="margin-top:6px"></div>
+</footer>
+
+<button id="musicFab" type="button" aria-label="Pausar o reproducir la canción">♫</button>
+<div id="ytHolder" aria-hidden="true"><div id="yt"></div></div>
+
+<script>
+/* ==========================================================
+   ✏️ CONFIG: cambia aquí tus datos. No toques lo demás.
+   ========================================================== */
+const CONFIG = {
+  padres: "Adri & Kei",                      // Cómo quieren aparecer
+  zoomLink: "",                               // Ej: "https://zoom.us/j/1234567890?pwd=..."
+  zoomId: "",                                 // Ej: "123 456 7890"
+  zoomClave: "",                              // Ej: "bebe2026"
+  whatsapp: "51923367903",                 // 51 + tu número, sin espacios ni +
+  confirmarAntesDe: "20 de noviembre",        // Fecha límite para confirmar
+  cancionArchivo: "cancion.mp3",              // Sube tu MP3 con este nombre junto al index.html
+  cancionYoutube: "XUxRevvzHE8",              // Respaldo: video de YouTube si no hay MP3
+  cancionTitulo: "Chiquita · Camilo"
+};
+/* ========================================================== */
+
+// Evento: domingo 22/11/2026, 4:30–6:00 p. m. hora Perú (UTC-5)
+const START = Date.UTC(2026,10,22,21,30,0);
+const END   = Date.UTC(2026,10,22,23,0,0);
+
+// Textos
+const set = (k,v)=>document.querySelectorAll(`[data-f="${k}"]`).forEach(e=>e.textContent=v);
+set("parents", CONFIG.padres);
+set("coverSub", "De parte de " + CONFIG.padres);
+set("footer", "Con cariño, " + CONFIG.padres);
+set("rsvpText", `Por favor, confírmanos antes del ${CONFIG.confirmarAntesDe} para enviarte cualquier novedad de la reunión.`);
+
+// Zoom
+const zd = document.getElementById("zoomData");
+const rows = [];
+if (CONFIG.zoomId) rows.push(["ID de reunión", CONFIG.zoomId]);
+if (CONFIG.zoomClave) rows.push(["Código de acceso", CONFIG.zoomClave]);
+zd.innerHTML = rows.map(r=>`<div class="zoom-row"><span>${r[0]}</span><b>${r[1]}</b></div>`).join("");
+const zb = document.getElementById("zoomBtn");
+if (CONFIG.zoomLink) { zb.href = CONFIG.zoomLink; }
+else {
+  zb.removeAttribute("href"); zb.style.opacity=".6"; zb.style.pointerEvents="none";
+  zb.textContent = "🎥 El enlace se compartirá pronto";
+}
+
+// Calendario (Google Calendar)
+const fmt = t => new Date(t).toISOString().replace(/[-:]/g,"").replace(/\.\d{3}/,"");
+const calDetails = "Revelación de sexo por Zoom" + (CONFIG.zoomLink ? "\n" + CONFIG.zoomLink : "");
+document.getElementById("calBtn").href =
+  "https://calendar.google.com/calendar/render?action=TEMPLATE" +
+  "&text=" + encodeURIComponent("¿Niño o niña? Revelación de " + CONFIG.padres) +
+  "&dates=" + fmt(START) + "/" + fmt(END) +
+  "&details=" + encodeURIComponent(calDetails) +
+  "&location=" + encodeURIComponent(CONFIG.zoomLink || "Zoom");
+
+// Cuenta regresiva
+const pad = n => String(n).padStart(2,"0");
+function tick(){
+  let d = START - Date.now();
+  if (d <= 0) {
+    document.getElementById("countdown").innerHTML =
+      `<div style="grid-column:1/-1"><b>${Date.now() < END ? "¡Es ahora!" : "¡Gracias por acompañarnos!"}</b></div>`;
+    return clearInterval(timer);
+  }
+  document.getElementById("cd-d").textContent = Math.floor(d/864e5);
+  document.getElementById("cd-h").textContent = pad(Math.floor(d/36e5)%24);
+  document.getElementById("cd-m").textContent = pad(Math.floor(d/6e4)%60);
+  document.getElementById("cd-s").textContent = pad(Math.floor(d/1e3)%60);
+}
+const timer = setInterval(tick,1000); tick();
+
+// Equipos
+let team = "";
+document.querySelectorAll(".team").forEach(b=>b.addEventListener("click",()=>{
+  document.querySelectorAll(".team").forEach(x=>x.classList.remove("sel"));
+  b.classList.add("sel"); team = b.dataset.team;
+  document.getElementById("teamNote").textContent = `Tu apuesta: ${team === "niño" ? "🧸 Niño" : "🎀 Niña"}`;
+  confetti(team === "niño" ? ["#a9b4ab","#6e7f75","#e8d9c4"] : ["#d4a99a","#a8705c","#e8d9c4"], 40);
+}));
+
+// Confirmación por WhatsApp
+document.getElementById("waBtn").addEventListener("click",()=>{
+  const name = document.getElementById("guestName").value.trim();
+  let msg = "¡Hola! " + (name ? "Soy " + name + " y c" : "C") +
+            "onfirmo mi asistencia a la revelación del domingo 22 de noviembre por Zoom. 🎉";
+  if (team) msg += "\nMi apuesta: " + (team === "niño" ? "🧸 ¡Es niño!" : "🎀 ¡Es niña!");
+  window.open("https://wa.me/" + CONFIG.whatsapp + "?text=" + encodeURIComponent(msg), "_blank");
+});
+
+// Música: primero el archivo MP3 (suena al instante al abrir), si no existe usa YouTube
+set("songTitle", CONFIG.cancionTitulo);
+const songBtn = document.getElementById("songBtn"), fab = document.getElementById("musicFab");
+const audio = new Audio(); audio.loop = true; audio.preload = "auto";
+let mode = CONFIG.cancionArchivo ? "mp3" : (CONFIG.cancionYoutube ? "yt" : "none");
+if (mode === "mp3") audio.src = CONFIG.cancionArchivo;
+let player = null, ytReady = false, ytWant = false, playing = false;
+
+function paint(){
+  songBtn.classList.toggle("playing", playing); fab.classList.toggle("playing", playing);
+  document.getElementById("songIcon").textContent = playing ? "❚❚" : "▶";
+  document.getElementById("songLabel").textContent = playing ? "Sonando ahora" : "Reproducir nuestra canción";
+}
+audio.addEventListener("play", ()=>{ playing = true; paint(); });
+audio.addEventListener("pause", ()=>{ playing = false; paint(); });
+audio.addEventListener("error", ()=>{ if (mode === "mp3"){ mode = CONFIG.cancionYoutube ? "yt" : "none"; loadYT(); } });
+
+window.onYouTubeIframeAPIReady = function(){
+  player = new YT.Player("yt",{
+    width:2, height:2, videoId:CONFIG.cancionYoutube,
+    playerVars:{playsinline:1, controls:0, loop:1, playlist:CONFIG.cancionYoutube, rel:0},
+    events:{
+      onReady:()=>{ ytReady = true; player.setVolume(70); if (ytWant) player.playVideo(); },
+      onStateChange:e=>{ playing = (e.data === YT.PlayerState.PLAYING); paint(); }
+    }
+  });
+};
+let ytLoaded = false;
+function loadYT(){
+  if (ytLoaded || !CONFIG.cancionYoutube) return; ytLoaded = true;
+  const s = document.createElement("script"); s.src = "https://www.youtube.com/iframe_api"; document.head.appendChild(s);
+}
+loadYT(); // se precarga como respaldo
+if (mode === "none") songBtn.style.display = "none";
+
+function playMusic(){
+  if (mode === "mp3"){
+    audio.play().catch(()=>{ mode = "yt"; ytReady ? player.playVideo() : (ytWant = true); });
+  } else if (mode === "yt"){
+    ytReady ? player.playVideo() : (ytWant = true);
+  }
+}
+function toggleMusic(){
+  if (!playing) return playMusic();
+  mode === "mp3" ? audio.pause() : (player && player.pauseVideo());
+}
+songBtn.addEventListener("click", toggleMusic);
+fab.addEventListener("click", toggleMusic);
+
+// Abrir invitación
+document.getElementById("openBtn").addEventListener("click",()=>{
+  if (mode !== "none"){ fab.classList.add("show"); playMusic(); }
+  document.getElementById("cover").classList.add("hide");
+  document.body.classList.remove("locked");
+  confetti(["#e8d9c4","#b98a5e","#7a5636","#d4a99a","#a9b4ab"], 70);
+});
+
+// Animación al hacer scroll
+const io = new IntersectionObserver(es=>es.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add("in"); io.unobserve(e.target);} }),{threshold:.15});
+document.querySelectorAll(".reveal").forEach(el=>io.observe(el));
+
+// Confeti
+function confetti(colors, n){
+  for (let i=0;i<n;i++){
+    const c = document.createElement("div");
+    c.className = "confetti";
+    c.style.left = Math.random()*100 + "vw";
+    c.style.background = colors[i % colors.length];
+    c.style.animationDuration = (2 + Math.random()*2) + "s";
+    c.style.animationDelay = (Math.random()*0.6) + "s";
+    document.body.appendChild(c);
+    setTimeout(()=>c.remove(), 5000);
+  }
+}
+</script>
+</body>
+</html>
