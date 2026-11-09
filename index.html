@@ -3,6 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
 <title>¿Niño o Niña? | Revelación</title>
 <meta name="description" content="Te invitamos a descubrir con nosotros si nuestro bebé es niño o niña. Domingo 22 de noviembre, 4:30 p. m., por Zoom.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -146,6 +147,15 @@
   .confetti{position:fixed;top:-12px;width:10px;height:14px;z-index:60;pointer-events:none;border-radius:2px;animation:fall linear forwards}
   @keyframes fall{to{transform:translateY(110vh) rotate(720deg)}}
 
+  /* ---------- Código de acceso ---------- */
+  .gate{display:flex;flex-direction:column;align-items:center;gap:10px;width:100%;max-width:280px}
+  .gate label{font-size:.82rem;color:var(--muted);font-weight:700}
+  .gate input{width:100%;text-align:center;padding:12px 14px;border-radius:999px;border:1px solid var(--line);font:600 1rem 'Nunito',sans-serif;background:var(--card);color:var(--ink);letter-spacing:.08em}
+  .gate input:focus{outline:2px solid var(--caramel);outline-offset:2px}
+  .gate .err{min-height:1.2em;font-size:.82rem;color:var(--pink-d)}
+  .shake{animation:shake .35s}
+  @keyframes shake{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+
   /* ---------- Música ---------- */
   .song{display:inline-flex;align-items:center;gap:12px;margin-top:22px;padding:10px 18px 10px 10px;border-radius:999px;background:var(--card);border:1px solid var(--line);cursor:pointer;font:inherit;color:var(--ink);box-shadow:0 6px 18px rgba(122,86,54,.08)}
   .song .disc{width:40px;height:40px;border-radius:50%;display:grid;place-items:center;color:#fff;font-size:1rem;background:linear-gradient(135deg,var(--caramel),var(--brown))}
@@ -224,7 +234,12 @@
   <div class="cover-kicker">Tienes una invitación especial</div>
   <div class="cover-title"><span class="b">¿Niño</span> o <span class="g">niña?</span></div>
   <div class="cover-sub" data-f="coverSub"></div>
-  <button class="btn btn-main" id="openBtn">Abrir invitación ✨</button>
+  <div class="gate">
+    <label for="codeInput" id="codeLabel">Escribe el código que te enviamos</label>
+    <input id="codeInput" type="text" autocomplete="off" autocapitalize="none" spellcheck="false" placeholder="Código">
+    <button class="btn btn-main" id="openBtn">Abrir invitación ✨</button>
+    <div class="err" id="codeErr" role="alert"></div>
+  </div>
 </div>
 
 <main>
@@ -342,7 +357,8 @@ const CONFIG = {
   zoomId: "",                                 // Ej: "123 456 7890"
   zoomClave: "",                              // Ej: "bebe2026"
   whatsapp: "51923367903",                 // 51 + tu número, sin espacios ni +
-  confirmarAntesDe: "20 de noviembre",        // Fecha límite para confirmar
+  confirmarAntesDe: "20 de noviembre",
+  codigo: "osito",                            // Código para abrir la invitación ("" = sin código)        // Fecha límite para confirmar
   cancionArchivo: "cancion.mp3",              // Sube tu MP3 con este nombre junto al index.html
   cancionYoutube: "XUxRevvzHE8",              // Respaldo: video de YouTube si no hay MP3
   cancionTitulo: "Chiquita · Camilo"
@@ -467,7 +483,21 @@ songBtn.addEventListener("click", toggleMusic);
 fab.addEventListener("click", toggleMusic);
 
 // Abrir invitación
+const norm = t => (t||"").trim().toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"");
+const codeInput = document.getElementById("codeInput");
+if (!CONFIG.codigo){ codeInput.style.display="none"; document.getElementById("codeLabel").style.display="none"; }
+else {
+  // Si el enlace trae ?c=codigo, se completa solo
+  try { const q = new URLSearchParams(location.search).get("c"); if (q) codeInput.value = q; } catch(e){}
+}
+codeInput.addEventListener("keydown", e=>{ if (e.key === "Enter") document.getElementById("openBtn").click(); });
 document.getElementById("openBtn").addEventListener("click",()=>{
+  if (CONFIG.codigo && norm(codeInput.value) !== norm(CONFIG.codigo)){
+    const err = document.getElementById("codeErr");
+    err.textContent = "Código incorrecto, revisa el mensaje que te enviamos 🧸";
+    codeInput.classList.remove("shake"); void codeInput.offsetWidth; codeInput.classList.add("shake");
+    return;
+  }
   if (mode !== "none"){ fab.classList.add("show"); playMusic(); }
   document.getElementById("cover").classList.add("hide");
   document.body.classList.remove("locked");
